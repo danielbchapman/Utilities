@@ -27,7 +27,7 @@ import java.util.logging.Logger;
  */
 public class Utility
 {
-  public static Logger log = Logger.getLogger("LA_UTILITY");
+  public static Logger log = Logger.getLogger("UTILITY");
 
   public static void appendFile(String path, String string)
   {
