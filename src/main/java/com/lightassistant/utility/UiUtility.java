@@ -14,8 +14,6 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import com.duastechnologies.components.UiUtility;
-
 /**
  * A group of static helper methods that provide basic UI functionality like 
  * centering windows, laying out panels and providing quick, easy access to 
