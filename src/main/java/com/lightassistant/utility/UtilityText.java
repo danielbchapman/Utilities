@@ -1,6 +1,7 @@
 package com.lightassistant.utility;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 
 public class UtilityText
 {
@@ -97,5 +98,49 @@ public class UtilityText
     System.out.println(test + " value in inches is: " + UtilityText.processForInches(test));
     test = "17\"";
     System.out.println(test + " value in inches is: " + UtilityText.processForInches(test));
+  }
+  
+  
+  public static class Code
+  {
+    public static String staticCase(String text)
+    {
+      char[] chars = text.toCharArray();
+      char[] buffer = new char[chars.length * 2]; 
+      
+      int add = 0;
+      for(int i = 0; i < chars.length; i++)
+      {
+        if(Character.isUpperCase(chars[i]))
+        {
+          buffer[add + i] = '_';
+          add++;
+          buffer[add + i] = Character.toUpperCase(chars[i]);
+        }
+        else
+          buffer[add + i] = Character.toUpperCase(chars[i]);
+      }
+      
+      return new String(Arrays.copyOf(buffer, chars.length + add));
+    }    
+    
+    public static String clean(String string)
+    {
+      return string.replaceAll("\\-", "").replaceAll("\\s+", "");
+    }
+  }
+  
+  public static String capitalizeFirst(String text)
+  {
+    char[] ret = text.toCharArray();
+    ret[0] = Character.toUpperCase(ret[0]);
+    return new String(ret);
+  }
+  
+  public static String lowerCaseFirst(String text)
+  {
+    char[] ret = text.toCharArray();
+    ret[0] = Character.toLowerCase(ret[0]);
+    return new String(ret);
   }
 }
