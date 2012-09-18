@@ -14,7 +14,8 @@ import com.lightassistant.utility.Utility;
 
 public class MessageUtility
 {
-  public static final String DEFAULT_INTERNATIONALIZATION_FILES = "i1n8";
+  public static final String DEFAULT_INTERNATIONALIZATION_FILES = "language";
+  public static final String DEFAULT_FALLBACK_INTERNATIONALIZATION_FILES = "i1n8";
   private static WeakHashMap<Class<?>, Instance> instanceMap = new WeakHashMap<Class<?>, Instance>();
   private static Locale locale = Locale.getDefault();
 
@@ -34,25 +35,50 @@ public class MessageUtility
     instanceMap.clear();
   }
 
+  
+  /**
+   * <p>
+   * This class provides a "two" file based instance for properties. The first file
+   * checked ({@link #DEFAUL_INTERNATIONALIZATION_FILES}) will be read and if no 
+   * key is found it will fallback to {@link #DEFAULT_FALLBACK_INTERNATIONALIZATION_FILES} which
+   * will then fallback to writing to the fallback.
+   * </p>
+   * <p> 
+   * In general, this is to keep garbage from populating the fields that have been finished. It 
+   * also keeps the finished files clean allowing missed keys to "roll over" into the other
+   * directory so they can be easily identified.
+   *</p>
+   ***************************************************************************
+   * @author Daniel B. Chapman 
+   * <br /><i><b>Light Assistant</b></i> copyright Daniel B. Chapman
+   * @since Sep 18, 2012
+   * @version 2 Development
+   * @link http://www.lightassistant.com
+   ***************************************************************************
+   */
   public static class Instance
   {
     private String baseName;
     private String directory;
-    private String filePath;
+    private String directoryPath;
+    private String fallback;
+    private String fallbackPath;
     private Locale locale;
     private ResourceBundle resourceBundle;
+    private ResourceBundle resourceBundleFallback;
 
     public Instance(Class<?> clazz, Locale locale)
     {
-      this(DEFAULT_INTERNATIONALIZATION_FILES, clazz.getName(), locale);
+      this(DEFAULT_INTERNATIONALIZATION_FILES, DEFAULT_FALLBACK_INTERNATIONALIZATION_FILES, clazz.getName(), locale);
     }
 
-    public Instance(String directory, String baseName, Locale locale)
+    public Instance(String directory, String fallback, String baseName, Locale locale)
     {
       this.baseName = baseName;
       this.locale = locale;
       this.directory = directory;
-      init(directory, baseName, locale);
+      this.fallback = fallback;
+      init();
     }
 
     public String get(String key)
@@ -61,14 +87,22 @@ public class MessageUtility
       {
         return resourceBundle.getString(key);
       }
-      catch (Exception e)
+      catch (Exception no)
       {
-        return logMissingKey(key);
+        try
+        {
+          return resourceBundleFallback.getString(key);
+        }
+        catch(Exception e)
+        {
+          return logMissingKey(key);          
+        }
+
       }
     }
 
     public String get(String key, Object... params)
-    {
+    {      
       try
       {
         MessageFormat formatter = new MessageFormat("");
@@ -78,46 +112,39 @@ public class MessageUtility
         String output = formatter.format(params);
         return output;
       }
-      catch (Exception e)
+      catch (Exception no)
       {
-        return logMissingKey(key, params);
+        try
+        {
+          MessageFormat formatter = new MessageFormat("");
+          formatter.setLocale(locale);
+          formatter.applyPattern(resourceBundleFallback.getString(key));
+          String output = formatter.format(params);
+          return output;          
+        }
+        catch(Exception e)
+        {
+          return logMissingKey(key, params);  
+        }
       }
     }
 
     public void setLocale(Locale locale)
     {
       this.locale = locale;
-      init(directory, baseName, locale);
+      init();
     }
 
-    protected void init(String directoryPath, String baseName, Locale locale)
-    {
-      System.err.println(getClass().getName() + " -> " + "Localization not implemented, this will use a default english set");
-      System.out.println("LOCAL NOT SUPPORTD");
-      File directory = new File(directoryPath);
-      if (!directory.exists())
-        directory.mkdirs();
-
-      File loadedFile = new File(directory + File.separator + baseName + ".properties");
-      filePath = loadedFile.getAbsolutePath();
-
-      if (!loadedFile.exists())
-        Utility.touchFile(new File(filePath));
-
-      StringBuffer buffer = Utility.readFile(filePath);
-      StringReader reader = new StringReader(buffer.toString());
-      PropertyResourceBundle props;
-      try
-      {
-        props = new PropertyResourceBundle(reader);
-      }
-      catch (IOException e)
-      {
-        /* It's a string reader...this should be fine unless you run out of memory... */
-        throw new RuntimeException(e.getMessage(), e);
-      }
-
-      resourceBundle = props;
+    protected void init()
+    {      
+      Object[] main = createBundle(directory, baseName, locale);;
+      Object[] secondary = createBundle(fallback, baseName, locale);
+      
+      resourceBundle = (ResourceBundle) main[0]; 
+      directoryPath = (String) main[1];
+      
+      resourceBundleFallback = (ResourceBundle) secondary[0];
+      fallbackPath = (String) secondary[1];
     }
 
     protected String logMissingKey(String key)
@@ -125,7 +152,7 @@ public class MessageUtility
       return logMissingKey(key, new Object[] {});
     }
 
-    protected String logMissingKey(String key, Object... params)
+    protected synchronized String logMissingKey(String key, Object... params)
     {
       StringBuilder missing = new StringBuilder();
       missing.append("*");
@@ -172,13 +199,42 @@ public class MessageUtility
       writePair(key, ret);
 
       /* Store this new key for subsequent calls */
-      init(directory, baseName, locale);
+      init();
       return ret;
     }
 
     private void writePair(String key, String value)
     {
-      Utility.appendFile(filePath, key + " = " + value);
+      Utility.appendFile(fallbackPath, key + " = " + value);
+    }
+    
+    private Object[] createBundle(String directoryPath, String baseName, Locale locale)
+    {
+      File directory = new File(directoryPath);
+      if (!directory.exists())
+        directory.mkdirs();
+
+      File loadedFile = new File(directory + File.separator + baseName + ".properties");
+      String path = loadedFile.getAbsolutePath();
+
+      if (!loadedFile.exists())
+        Utility.touchFile(new File(path));
+
+      StringBuffer buffer = Utility.readFile(path);
+      StringReader reader = new StringReader(buffer.toString());
+      PropertyResourceBundle props = null;
+      
+      try
+      {
+        props = new PropertyResourceBundle(reader);
+      }
+      catch (IOException e)
+      {
+        /* It's a string reader...this should be fine unless you run out of memory... */
+        throw new RuntimeException(e.getMessage(), e);
+      }
+      
+      return new Object[]{props, path};
     }
   }
 }
