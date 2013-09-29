@@ -64,14 +64,19 @@ public class FxEscaper extends Application
     String line = null;
     BufferedReader reader = new BufferedReader(new StringReader(input));
     StringBuilder build = new StringBuilder();
+    boolean first = true;
     try
     {
       while((line = reader.readLine()) != null)
       {
+        if(!first)
+          build.append(" +\r\n");//windows
+        
+        first = false;
+        
         build.append("\"");
         build.append(line.replaceAll("\\\"", "\\\\\""));
-        build.append("\"");
-        build.append("\r\n");//windows
+        build.append(" \"");
       }
     }
     catch (IOException e)/* Should not happen */
