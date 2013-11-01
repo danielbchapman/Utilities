@@ -1,4 +1,9 @@
 package com.danielbchapman.code;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.PrintWriter;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import javafx.application.Application;
@@ -8,44 +13,40 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import lombok.Data;
 
+import com.lightassistant.utility.Utility;
 import com.lightassistant.utility.UtilityText;
 
 
 public class QtPropertyBuilder extends Application
-{
-  public final static String TYPE = "#type";
-  public final static String LOWER = "#lower";
-  public final static String STATIC = "#static";
-  public final static String VALUE = "#value";
-  public final static String RAW = "#raw";
+{  
   public static void main(String ... args)
   {
-    launch();
+      launch();
   }
+  
   @Override
   public void start(Stage stage) throws Exception
   {
     VBox root = new VBox();
     
     
-    final Label lower = new Label("Use " + LOWER + " for lowerCase (method)");
-    final Label staticc = new Label("Use " + STATIC + " for STATIC_CASE");
-    final Label value = new Label("Use " + VALUE + " for ObjectCase");
-    final Label raw = new Label("Use " + RAW + " for 'Raw Value'");
+    final Label lower = new Label("Use " + QtPropertyBuilderCore.LOWER + " for lowerCase (method)");
+    final Label staticc = new Label("Use " + QtPropertyBuilderCore.STATIC + " for STATIC_CASE");
+    final Label value = new Label("Use " + QtPropertyBuilderCore.VALUE + " for ObjectCase");
+    final Label raw = new Label("Use " + QtPropertyBuilderCore.RAW + " for 'Raw Value'");
 
     final TextArea pre = new TextArea();
     final TextArea data = new TextArea();
     final TextArea out = new TextArea();
     
     StringBuilder setup = new StringBuilder();
-    setup.append("\tQ_PROPERTY Q_PROPERTY(QString " + lower + " READ " + lower + " WRITE set" + VALUE + " NOTIFY " + lower + "Changed)");
-    setup.append("\tQString " + LOWER + "()\t\n{return m_"+lower+";\n\t}");
-    setup.append("\tQString set" + VALUE + "(const QString &v)\t\n{m_"+lower+" = v;\n\t}");
+    setup.append("\tQ_PROPERTY Q_PROPERTY(QString " + lower + " READ " + lower + " WRITE set" + QtPropertyBuilderCore.VALUE + " NOTIFY " + lower + "Changed)");
+    setup.append("\tQString " + QtPropertyBuilderCore.LOWER + "()\t\n{return m_"+lower+";\n\t}");
+    setup.append("\tQString set" + QtPropertyBuilderCore.VALUE + "(const QString &v)\t\n{m_"+lower+" = v;\n\t}");
     
     pre.setText(setup.toString());
     //pre.setText("public void " + LOWER + "(String "+ LOWER+ ")\n{\n\tthis." + LOWER +" = " + LOWER + ";\n}\\\\" + STATIC +" " + RAW + ";");
@@ -59,9 +60,18 @@ public class QtPropertyBuilder extends Application
       @Override
       public void handle(ActionEvent arg0)
       {
-        out.setText(process(data.getText()));
+        out.setText(QtPropertyBuilderCore.process(data.getText(), "REPLACE_ME").getOne());
       }});
         
+    Button getFiles = new Button("From *.gen");
+    getFiles.onActionProperty().set(new EventHandler<ActionEvent>(){
+
+      @Override
+      public void handle(ActionEvent arg0)
+      {
+        QtPropertyBuilderCore.processFiles(".");
+      }});
+    
     root.getChildren().addAll(
         lower,
         staticc,
@@ -70,6 +80,7 @@ public class QtPropertyBuilder extends Application
 //        pre,
         data, 
         process,
+        getFiles,
         out);
     
     Scene scene = new Scene(root);
@@ -78,112 +89,5 @@ public class QtPropertyBuilder extends Application
     stage.setTitle("TSV Code Builder");
   }
 
-  public static String process(String data)
-  {
-    StringBuilder builder = new StringBuilder();
-    String[] lines = data.split("\\n");
-    ArrayList<Parts> parts = new ArrayList<Parts>();
-    for(String element : lines)
-    { 
-      element = element.replaceAll("\\s+", "\t");
-      String[] rowData = element.split("\t");
-      String type = null;
-      String raw = null;
-      
-      if(rowData.length == 1)
-      {
-        raw = rowData[0];
-        type = "QString";
-      }
-      else
-      {
-        type = rowData[0];
-        raw = rowData[1];
-      }
-      String clean = UtilityText.Code.clean(element);
-      String lowerCase = UtilityText.lowerCaseFirst(clean);
-      String staticCase = UtilityText.Code.staticCase(lowerCase);
-      
-      Parts part = new Parts();
-      
-      part.props = 
-          "Q_PROPERTY(#type " + LOWER + " READ " + LOWER + " WRITE set" + VALUE + " NOTIFY " + LOWER + "Changed)";
-      part.props = part.props
-          .replaceAll(TYPE, type)
-          .replaceAll(RAW, raw)
-          .replaceAll(LOWER, lowerCase)
-          .replaceAll(STATIC, staticCase)
-          .replaceAll(VALUE, clean);
-      
-      part.pub = 
-          "#type " + LOWER + "()\n\t{\n\t\treturn m_" + LOWER + ";\n\t}\n"
-          + "\tvoid set" + VALUE + "(const #type &v)\n\t{\n\t\tif(v == m_" + LOWER + ")\n\t\t\treturn;\n\n\t\tm_" + LOWER + " = v;\n\t\temit "+LOWER+"Changed();\n\t}";
-      part.pub = part.pub
-          .replaceAll(TYPE, type)
-          .replaceAll(RAW, raw)
-          .replaceAll(LOWER, lowerCase)
-          .replaceAll(STATIC, staticCase)
-          .replaceAll(VALUE, clean);
-      
-      
-      part.signals = 
-          "\tvoid " + LOWER + "Changed();";
-      part.signals = part.signals
-          .replaceAll(TYPE, type)
-          .replaceAll(RAW, raw)
-          .replaceAll(LOWER, lowerCase)
-          .replaceAll(STATIC, staticCase)
-          .replaceAll(VALUE, clean);
-      
-      part.priv = "m_" + raw + ";";
-      
-      part.type = type;
-      parts.add(part);
-    }
-    
-    for(Parts p : parts)
-    {
-      builder.append("\t");
-      builder.append(p.props);
-      builder.append("\n");
-    }
-    
-    builder.append("public:\n");
-    for(Parts p : parts)
-    {
-      builder.append("\t");
-      builder.append(p.pub);
-      builder.append("\n");
-    }
-    
-    builder.append("signals:\n");
-    for(Parts p : parts)
-    {
-      builder.append("\t");
-      builder.append(p.signals);
-      builder.append("\n");
-    }
-    
-    builder.append("private:\n");
-    for(Parts p : parts)
-    {
-      builder.append("\t");
-      builder.append(p.type);
-      builder.append(" ");
-      builder.append(p.priv);
-      builder.append("\n");
-    }
-    
-    return builder.toString();
-  }
   
-  @Data
-  public static class Parts
-  {
-    String props;
-    String pub;
-    String signals; 
-    String priv;
-    String type;
-  }
 }
