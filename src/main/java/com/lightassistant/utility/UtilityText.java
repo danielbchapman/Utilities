@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.text.MessageFormat;
 import java.util.Arrays;
 
 public class UtilityText
@@ -164,5 +165,10 @@ public class UtilityText
     try(BufferedWriter out = new BufferedWriter(new FileWriter(file))){
       out.write(data);  
     }
+  }
+  
+  public static String format(String input, Object ... args)
+  {
+    return MessageFormat.format(input, args);
   }
 }
