@@ -10,6 +10,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -162,6 +163,18 @@ public class Utility
     {
       throw new RuntimeException(e.getMessage(), e);
     }
+  }
+  
+  public static <T> ArrayList<T> list(T[] t)
+  {
+    if(t == null)
+      return null;
+    ArrayList<T> list = new ArrayList<T>();
+    
+    for(int i = 0; i < t.length; i++)
+      list.add(t[i]);
+    
+    return list;
   }
 
   public static void writeFile(String path, String string)
