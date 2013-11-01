@@ -1,5 +1,12 @@
 package com.lightassistant.utility;
 
+import java.io.BufferedOutputStream;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Arrays;
 
@@ -142,5 +149,20 @@ public class UtilityText
     char[] ret = text.toCharArray();
     ret[0] = Character.toLowerCase(ret[0]);
     return new String(ret);
+  }
+  
+  /**
+   * <JavaDoc>
+   * @param file
+   * @param data
+   * @throws IOException <Return Description>  
+   * 
+   */
+  //FIXME Java Doc Needed
+  public static void writeFile(File file, String data) throws IOException
+  {
+    try(BufferedWriter out = new BufferedWriter(new FileWriter(file))){
+      out.write(data);  
+    }
   }
 }
