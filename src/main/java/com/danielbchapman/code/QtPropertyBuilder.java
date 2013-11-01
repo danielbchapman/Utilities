@@ -18,7 +18,7 @@ import com.lightassistant.utility.UtilityText;
 
 public class QtPropertyBuilder extends Application
 {
-
+  public final static String TYPE = "#type";
   public final static String LOWER = "#lower";
   public final static String STATIC = "#static";
   public final static String VALUE = "#value";
@@ -81,43 +81,63 @@ public class QtPropertyBuilder extends Application
   public static String process(String data)
   {
     StringBuilder builder = new StringBuilder();
-    String[] raw = data.split("\\n");
+    String[] lines = data.split("\\n");
     ArrayList<Parts> parts = new ArrayList<Parts>();
-    for(String s : raw)
+    for(String element : lines)
     { 
-      String clean = UtilityText.Code.clean(s);
+      element = element.replaceAll("\\s+", "\t");
+      String[] rowData = element.split("\t");
+      String type = null;
+      String raw = null;
+      
+      if(rowData.length == 1)
+      {
+        raw = rowData[0];
+        type = "QString";
+      }
+      else
+      {
+        type = rowData[0];
+        raw = rowData[1];
+      }
+      String clean = UtilityText.Code.clean(element);
       String lowerCase = UtilityText.lowerCaseFirst(clean);
       String staticCase = UtilityText.Code.staticCase(lowerCase);
       
       Parts part = new Parts();
       
       part.props = 
-          "Q_PROPERTY(QString " + LOWER + " READ " + LOWER + " WRITE set" + VALUE + " NOTIFY " + LOWER + "Changed)";
+          "Q_PROPERTY(#type " + LOWER + " READ " + LOWER + " WRITE set" + VALUE + " NOTIFY " + LOWER + "Changed)";
       part.props = part.props
-          .replaceAll(RAW, s)
+          .replaceAll(TYPE, type)
+          .replaceAll(RAW, raw)
           .replaceAll(LOWER, lowerCase)
           .replaceAll(STATIC, staticCase)
           .replaceAll(VALUE, clean);
       
       part.pub = 
-          "QString " + LOWER + "()\n\t{\n\t\treturn m_" + LOWER + ";\n\t}\n"
-          + "\tvoid set" + VALUE + "(const QString &v)\n\t{\n\t\tif(v == m_" + LOWER + ")\n\t\t\treturn;\n\n\t\tm_" + LOWER + " = v;\n\t\temit "+LOWER+"Changed();\n\t}";
-      part.pub = part.pub    
-          .replaceAll(RAW, s)
+          "#type " + LOWER + "()\n\t{\n\t\treturn m_" + LOWER + ";\n\t}\n"
+          + "\tvoid set" + VALUE + "(const #type &v)\n\t{\n\t\tif(v == m_" + LOWER + ")\n\t\t\treturn;\n\n\t\tm_" + LOWER + " = v;\n\t\temit "+LOWER+"Changed();\n\t}";
+      part.pub = part.pub
+          .replaceAll(TYPE, type)
+          .replaceAll(RAW, raw)
           .replaceAll(LOWER, lowerCase)
           .replaceAll(STATIC, staticCase)
           .replaceAll(VALUE, clean);
+      
       
       part.signals = 
           "\tvoid " + LOWER + "Changed();";
       part.signals = part.signals
-          .replaceAll(RAW, s)
+          .replaceAll(TYPE, type)
+          .replaceAll(RAW, raw)
           .replaceAll(LOWER, lowerCase)
           .replaceAll(STATIC, staticCase)
           .replaceAll(VALUE, clean);
       
-      part.priv = "m_" + s + ";";
+      part.priv = "m_" + raw + ";";
       
+      part.type = type;
       parts.add(part);
     }
     
@@ -147,7 +167,9 @@ public class QtPropertyBuilder extends Application
     builder.append("private:\n");
     for(Parts p : parts)
     {
-      builder.append("\tQString ");
+      builder.append("\t");
+      builder.append(p.type);
+      builder.append(" ");
       builder.append(p.priv);
       builder.append("\n");
     }
@@ -162,5 +184,6 @@ public class QtPropertyBuilder extends Application
     String pub;
     String signals; 
     String priv;
+    String type;
   }
 }
