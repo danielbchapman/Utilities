@@ -1,0 +1,101 @@
+ID	CAST	CREW	DESCRIPTION	END	PUBLICEVENT	START	DAY_ID
+153	false	false	TBA Afternoon Workshop	18:00:00		16:00:00	39
+154	false	false	TBA Afternoon Workshop	18:00:00		16:00:00	40
+157	false	false	TBA Education Activity	18:00:00		17:00:00	41
+162	false	false	TBA AM/Masterclass	12:00:00		10:00:00	44
+169	false	false	TBA Workshop	15:00:00		14:00:00	49
+183	false	false	TBA Residency Activity	19:00:00		17:00:00	63
+184	false	false	Resident Activity	19:00:00		17:00:00	67
+196	false	false	75min Workshop (TBC)	17:45:00		17:00:00	74
+197	false	false	x2 75min Workshops	18:30:00		12:00:00	75
+199	false	false	TBA Masterclass	19:00:00		17:00:00	79
+200	true	false	TBA 2 Masterclasses	14:30:00		13:30:00	81
+207	false	false	1hr Masterclass	15:00:00		14:00:00	88
+209	false	false	1hr Masterclass	15:00:00		14:00:00	89
+344	true	false	Bus Call	21:00:00		10:00:00	38
+345	true	false	Baggage	10:00:00		09:45:00	38
+347	true	false	Baggage	09:00:00		08:45:00	41
+348	true	false	Bus Call	12:30:00		09:00:00	41
+349	false	false	TBD Educational Activity in Cedar Rapids	20:00:00		18:00:00	43
+350	true	false	Baggage	13:00:00		12:45:00	43
+351	true	false	Bus Call	20:00:00		13:00:00	43
+352	true	false	Baggage	10:00:00		09:45:00	45
+353	true	false	Bus Call	20:00:00		10:00:00	45
+354	true	false	Baggage	09:00:00		08:45:00	48
+355	true	false	Bus Call	16:00:00		09:00:00	48
+356	true	false	Baggage	10:00:00		09:45:00	49
+357	true	false	Bus Call	12:00:00		10:00:00	49
+358	true	false	Baggage	11:00:00		10:45:00	53
+359	true	false	Bus Call	20:00:00		11:00:00	53
+360	true	false	Baggage	12:00:00		11:45:00	56
+361	true	false	Bus Call	18:00:00		12:00:00	56
+362	true	false	Baggage	09:00:00		08:45:00	63
+363	true	false	Bus Call	16:00:00		09:00:00	63
+364	true	false	Baggage	10:00:00		09:45:00	64
+365	true	false	Bus Call	20:00:00		10:00:00	64
+366	true	false	Baggage	10:00:00		09:45:00	66
+367	true	false	Bus Call	14:30:00		10:00:00	66
+368	true	false	Baggage	10:00:00		09:45:00	67
+369	true	false	Bus Call	14:30:00		10:00:00	67
+370	true	false	Baggage	10:00:00		09:45:00	70
+371	true	false	Bus Call	21:00:00		10:00:00	70
+372	true	false	Baggage	10:00:00		09:45:00	72
+373	true	false	Bus Call	14:30:00		10:00:00	72
+374	true	false	Baggage	10:00:00		09:45:00	74
+375	true	false	Bus Call	14:30:00		10:00:00	74
+376	true	false	Bus Call	14:30:00		10:00:00	74
+377	true	false	Baggage	12:00:00		11:45:00	77
+378	true	false	Bus Call	15:00:00		12:00:00	77
+379	true	false	Baggage	10:00:00		09:45:00	79
+380	true	false	Bus Call	15:00:00		10:00:00	79
+381	true	false	Baggage	10:00:00		09:45:00	80
+382	true	false	Bus Call	18:00:00		10:00:00	80
+383	true	false	Baggage	10:00:00		09:45:00	85
+384	true	false	Bus Call	20:00:00		10:00:00	85
+385	true	false	Baggage	11:00:00		10:45:00	88
+386	true	false	Bus Call	14:00:00		11:00:00	88
+387	true	false	Baggage	12:00:00		11:45:00	91
+388	true	false	Bus Call	15:30:00		12:00:00	91
+389	true	false	Baggage	08:30:00		08:15:00	93
+390	true	false	Bus Call	17:30:00		14:00:00	93
+391	true	false	Baggage	12:00:00		11:45:00	95
+392	true	false	Bus Call	17:00:00		12:00:00	95
+401	true	false	Baggage	09:00:00		08:45:00	97
+402	true	false	Bus Call	15:30:00		09:00:00	97
+403	true	false	Baggage	11:00:00		10:45:00	99
+404	true	false	Bus Call	14:30:00		11:00:00	99
+407	true	false	Baggage	10:00:00		09:45:00	406
+408	true	false	Bus Call	15:00:00		10:00:00	406
+409	true	false	Baggage	09:00:00		08:45:00	121
+410	true	false	Bus Call	17:00:00		09:00:00	121
+411	false	false	Masterclass	12:00:00		09:00:00	53
+610	false	false	Pre Show Talk with Staff Rep	19:00:00		18:30:00	46
+614	false	false	TBA Workshop	21:00:00		10:00:00	72
+651	true	false	Baggage	23:45:00		12:45:00	37
+652	true	false	Bus Call	15:30:00		13:00:00	37
+653	true	false	Bus Call	19:00:00		18:30:00	40
+654	true	false	Bus Call	14:00:00		13:30:00	41
+655	true	false	Bus Call	18:30:00		18:00:00	44
+1198	false	true	LOAD IN	17:00:00		08:00:00	1156
+1199	false	true	LOAD IN	17:00:00		08:00:00	1157
+1200	false	true	LOAD IN	17:00:00		08:00:00	1159
+1201	false	true	LOAD IN	17:00:00		08:00:00	1160
+1202	false	true	LOAD IN	17:00:00		08:00:00	1161
+1203	true	false	AEA DAY OFF	23:00:00		01:00:00	1162
+1204	true	false	AEA TRAVEL DAY	23:00:00		01:00:00	1164
+1213	true	false	AEA DAY OFF	23:00:00		01:00:00	1172
+1222	true	false	AEA DAY OFF	23:00:00		01:00:00	1180
+1232	true	false	AEA DAY OFF	23:00:00		01:00:00	1188
+1244	false	false	TECH	22:00:00		10:00:00	1165
+1245	false	false	TECH	22:00:00		10:00:00	1166
+1246	false	false	TECH	22:00:00		10:00:00	1167
+1247	false	false	TECH	22:00:00		10:00:00	1168
+1308	false	true	Strike	16:00:00		14:00:00	1307
+1310	false	true	Final Strike - Storage	17:00:00		08:00:00	1309
+1313	true	true	Rich - Day Off [hiring condition]	23:00:00		12:00:00	1312
+1314	false	true	Focus	17:00:00		15:00:00	1161
+1315	true	true	B-Roll Shoot	18:00:00		10:00:00	1168
+1321	false	true	Concordia Back in Session	02:00:00		01:00:00	1174
+1357	false	true	Curtain Load In	14:00:00		09:00:00	1256
+1358	false	true	Olivia to Guthrie	22:00:00		08:00:00	1190
+1360	false	true	Floor/Scroller Load in	12:00:00		09:00:00	412
