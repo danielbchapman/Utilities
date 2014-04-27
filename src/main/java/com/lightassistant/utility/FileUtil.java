@@ -1,5 +1,7 @@
 package com.lightassistant.utility;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
@@ -12,6 +14,38 @@ import java.util.ArrayList;
 
 public class FileUtil
 {
+  
+  public static void makeDirs(File file)
+  {
+    if(!file.exists())
+    {
+      File parent = file.getAbsoluteFile();
+      if(!parent.isDirectory())
+        parent = file.getParentFile();
+      
+      if(parent == null)
+        return; //root
+      
+      parent.mkdirs();
+    }
+  }
+  
+  public static void writeFile(String file, byte[] bytes)
+  {
+    File f = new File(file);
+    FileUtil.makeDirs(f);
+    
+    try (FileOutputStream out = new FileOutputStream(f))
+    {
+      out.write(bytes);
+      out.flush();
+    }
+    catch (IOException e)
+    {
+      throw new RuntimeException(e.getMessage(), e);
+    }
+  }
+  
   public static void copyDir(String from, String to)
   {
     try
