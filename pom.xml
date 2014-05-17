@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.lightassistant</groupId>
 	<artifactId>utilities</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>international</name>
 	<description>A package for managing internationalization files and other utility</description>
 	<dependencies>
