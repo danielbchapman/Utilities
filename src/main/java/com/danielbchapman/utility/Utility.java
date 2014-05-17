@@ -1,4 +1,4 @@
-package com.lightassistant.utility;
+package com.danielbchapman.utility;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

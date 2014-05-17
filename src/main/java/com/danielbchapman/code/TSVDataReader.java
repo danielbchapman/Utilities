@@ -14,7 +14,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import com.lightassistant.utility.UtilityText;
+import com.danielbchapman.utility.UtilityText;
 
 
 public class TSVDataReader extends Application

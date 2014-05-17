@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 
-import com.lightassistant.utility.Utility;
-import com.lightassistant.utility.UtilityText;
+import com.danielbchapman.utility.Utility;
+import com.danielbchapman.utility.UtilityText;
 
 public class StripDuplicates
 {

@@ -17,8 +17,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import lombok.Data;
 
-import com.lightassistant.utility.Utility;
-import com.lightassistant.utility.UtilityText;
+import com.danielbchapman.utility.Utility;
+import com.danielbchapman.utility.UtilityText;
 
 
 public class QtPropertyBuilder extends Application
