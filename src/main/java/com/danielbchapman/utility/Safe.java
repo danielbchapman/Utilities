@@ -1,4 +1,4 @@
-package com.lightassistant.utility;
+package com.danielbchapman.utility;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
