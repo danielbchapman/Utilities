@@ -1,7 +1,10 @@
 package com.danielbchapman.utility;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
@@ -30,6 +33,30 @@ public class FileUtil
     }
   }
   
+  public static ArrayList<String> readLines(String file)
+  {
+    ArrayList<String> lines = new ArrayList<>();
+    
+    try
+    {
+      File f = new File(file);
+      if(!f.exists())
+        return null;
+      
+      BufferedReader reader = new BufferedReader(new FileReader(file));
+      String line = null;
+      while((line = reader.readLine()) != null)
+        lines.add(line);
+    }
+    catch (IOException e)
+    {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+      return null;
+    }
+    
+    return lines;
+  }
   public static void writeFile(String file, byte[] bytes)
   {
     File f = new File(file);
