@@ -13,7 +13,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import lombok.Data;
 
-import com.lightassistant.utility.UtilityText;
+import com.danielbchapman.utility.UtilityText;
 
 
 public class PortfolioContentBuilder extends Application

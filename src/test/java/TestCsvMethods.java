@@ -1,6 +1,6 @@
 import org.junit.Test;
 
-import com.lightassistant.utility.UtilityDeliminated;
+import com.danielbchapman.utility.UtilityDeliminated;
 
 
 public class TestCsvMethods

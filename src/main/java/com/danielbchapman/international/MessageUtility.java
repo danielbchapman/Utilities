@@ -1,4 +1,4 @@
-package com.lightassistant.international;
+package com.danielbchapman.international;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,7 +10,7 @@ import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 import java.util.WeakHashMap;
 
-import com.lightassistant.utility.Utility;
+import com.danielbchapman.utility.Utility;
 
 public class MessageUtility
 {

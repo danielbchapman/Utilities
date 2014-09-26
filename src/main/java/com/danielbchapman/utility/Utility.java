@@ -1,7 +1,8 @@
-package com.lightassistant.utility;
+package com.danielbchapman.utility;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.Closeable;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -11,6 +12,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -200,11 +204,52 @@ public class Utility
     }
   }
 
-  public String replaceAll(String value, String pattern, String newPattern)
+  public static String replaceAll(String value, String pattern, String newPattern)
   {
     return value;
   }
 
+  public static String getStackTrace(Throwable t)
+  {
+    if(t == null)
+      return "Throwable is: null";
+    ByteArrayOutputStream out = new ByteArrayOutputStream();
+    PrintWriter ps = new PrintWriter(out);
+    if(t != null)
+      t.printStackTrace(ps);
+    
+    ps.flush();
+    ps.close();
+    return out.toString(); 
+  }
+  
+  public static Date findMonday(Date inWeek, TimeZone timeZone)
+  {
+    if(inWeek == null)
+      return null;
+   
+    Calendar monday = Calendar.getInstance(timeZone);
+    Calendar date = Calendar.getInstance(timeZone);
+    
+    monday.setTime(inWeek);
+    date.setTime(inWeek);
+    
+    monday.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+    monday.set(Calendar.HOUR_OF_DAY, 0);
+    monday.set(Calendar.MINUTE, 0);
+    monday.set(Calendar.SECOND, 0);
+    monday.set(Calendar.MILLISECOND, 0);
+    
+    int comp = Utility.compareToNullSafe(monday.getTime(), date.getTime());
+    if(comp > 0)
+    {
+      monday.add(Calendar.WEEK_OF_YEAR, -1);
+      return monday.getTime();
+    }
+    else
+      return monday.getTime();
+  }
+  
   public enum BindingType
   {
     COLOR, CURRENCY, DATE, INTEGER, REAL, TEXT;

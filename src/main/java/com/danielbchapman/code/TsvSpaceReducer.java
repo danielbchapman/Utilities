@@ -1,5 +1,5 @@
 package com.danielbchapman.code;
-import com.lightassistant.utility.UtilityText;
+import com.danielbchapman.utility.UtilityText;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;

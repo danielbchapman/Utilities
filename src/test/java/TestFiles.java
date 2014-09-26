@@ -3,7 +3,7 @@ import java.nio.file.Paths;
 
 import org.junit.Test;
 
-import com.lightassistant.utility.FileUtil;
+import com.danielbchapman.utility.FileUtil;
 
 
 public class TestFiles
