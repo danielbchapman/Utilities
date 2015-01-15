@@ -77,7 +77,7 @@ public class TestCalendarUtilities {
 			Date monthStart = null;
 			for(CalendarDay d : month)
 				if(d != null && d.events != null && !d.events.isEmpty())
-					monthStart = d.getEvents().get(0).getTime();
+					monthStart = d.getEvents().get(0).getDate();
 			
 			System.out.print("Month of ");
 			System.out.println(new SimpleDateFormat("MMMMM").format(monthStart));

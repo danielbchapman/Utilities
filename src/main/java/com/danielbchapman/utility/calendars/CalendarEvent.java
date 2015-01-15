@@ -11,7 +11,7 @@ public class CalendarEvent implements Comparable<CalendarEvent>
 {
 	@Getter
 	@Setter
-	private Date time;
+	private Date date;
 
 	public CalendarEvent()
 	{
@@ -20,7 +20,7 @@ public class CalendarEvent implements Comparable<CalendarEvent>
 	
 	public CalendarEvent(Date time)
 	{
-		this.time = time;
+		this.date = time;
 	}
 	
 	
@@ -29,8 +29,8 @@ public class CalendarEvent implements Comparable<CalendarEvent>
 		if(o == null)
 			return -1;
 		
-		Date a = time;
-		Date b = o.getTime();
+		Date a = date;
+		Date b = o.getDate();
 		
 		if(a == null && b == null)
 			return 0;

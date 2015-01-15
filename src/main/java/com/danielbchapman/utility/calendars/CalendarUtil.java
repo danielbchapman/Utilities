@@ -39,8 +39,8 @@ public class CalendarUtil {
 		if(events == null || events.size() == 0)
 			return calendar;
 		
-		Date first = events.get(0).getTime();
-		Date last = events.get(events.size()-1).getTime();
+		Date first = events.get(0).getDate();
+		Date last = events.get(events.size()-1).getDate();
 		
 		if(first == null || last == null)
 			return calendar;
@@ -51,10 +51,10 @@ public class CalendarUtil {
 		
 		for(CalendarEvent event : events)
 		{
-			if(event == null || event.getTime() == null)
+			if(event == null || event.getDate() == null)
 				continue;
 			Calendar cal = Calendar.getInstance();
-			cal.setTime(event.getTime());
+			cal.setTime(event.getDate());
 			
 			//Finalizer
 			if((cal.get(Calendar.MONTH) != currentMonth || cal.get(Calendar.YEAR) != currentYear) && eventMap != null)
@@ -112,7 +112,7 @@ public class CalendarUtil {
 				
 				eventMap = new HashMap<>();
 				Calendar firstDay = Calendar.getInstance();
-				firstDay.setTime(event.getTime());
+				firstDay.setTime(event.getDate());
 				firstDay.set(Calendar.DAY_OF_MONTH, 1);
 				
 				int days = firstDay.getActualMaximum(Calendar.DAY_OF_MONTH);
@@ -143,12 +143,13 @@ public class CalendarUtil {
 		else
 			return (startOfWeek - currentDay + 7 - 1) % 7;	
 	}
-	
-	public static void cleanDate(Calendar cal)
+
+	public static Calendar cleanDate(Calendar cal)
 	{
 		cal.set(Calendar.HOUR_OF_DAY, 0);
 		cal.set(Calendar.MINUTE, 0);
 		cal.set(Calendar.SECOND, 0);
 		cal.set(Calendar.MILLISECOND, 0);
+		return cal;//chainable
 	}
 }
