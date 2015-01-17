@@ -8,6 +8,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.TimeZone;
+import java.util.UUID;
+
+import com.danielbchapman.text.Utility;
 
 public class CalendarUtil {
 	
@@ -151,5 +154,15 @@ public class CalendarUtil {
 		cal.set(Calendar.SECOND, 0);
 		cal.set(Calendar.MILLISECOND, 0);
 		return cal;//chainable
+	}
+	
+	/**
+	 * @param domain the domain to use
+	 * @return a UID in a rough iCal format  
+	 * 
+	 */
+	public static String createIcalUid(String domain)
+	{
+	  return UUID.randomUUID().toString() + (Utility.isEmptyOrNull(domain) ? "@null.foo.bar" : domain);
 	}
 }

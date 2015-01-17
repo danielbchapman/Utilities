@@ -64,7 +64,7 @@ public class ICalEvent extends CalendarEvent
     if(uid != null)
       this.uid = uid;
     else
-      this.uid = UUID.randomUUID().toString() + UUID_SUFFIX;
+      this.uid = CalendarUtil.createIcalUid(UUID_SUFFIX);
   }
 
   @Override
