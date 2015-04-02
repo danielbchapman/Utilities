@@ -2,10 +2,14 @@ package com.danielbchapman.utility;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -264,6 +268,40 @@ public class FileUtil
     {
       Files.copy(file, to.resolve(from.relativize(file)), StandardCopyOption.REPLACE_EXISTING);
       return FileVisitResult.CONTINUE;
+    }
+  }
+  
+  public static <T extends Serializable> void serialize(File f, T t)
+  {
+    makeDirs(f);
+    try(
+        FileOutputStream fo = new FileOutputStream(f);
+        ObjectOutputStream o = new ObjectOutputStream(fo);
+        )
+    {
+      o.writeObject(t);    
+    }
+    catch (IOException e)
+    {
+      throw new RuntimeException(e.getMessage(), e);
+    }
+  }
+  
+  @SuppressWarnings("unchecked")
+  public static Object deserialize(File f)
+  {
+    if(!f.exists())
+      return null;
+    try(
+        FileInputStream fo = new FileInputStream(f);
+        ObjectInputStream in = new ObjectInputStream(fo);
+        )
+    {
+      return in.readObject();
+    }
+    catch (IOException | ClassNotFoundException e)
+    {
+      throw new RuntimeException(e.getMessage(), e);
     }
   }
 }
