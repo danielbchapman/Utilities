@@ -1,3 +1,4 @@
+package com.danielbchapman.utilites.tests;
 import org.junit.Test;
 
 import com.danielbchapman.utility.UtilityDeliminated;

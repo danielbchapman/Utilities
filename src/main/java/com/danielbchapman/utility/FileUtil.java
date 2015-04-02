@@ -1,6 +1,7 @@
 package com.danielbchapman.utility;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -35,6 +36,29 @@ public class FileUtil
       
       parent.mkdirs();
     }
+  }
+  
+  public static byte[] readData(String file)
+  {
+	  byte[] result = null;
+	  
+	  File f = new File(file);
+		if(!f.exists())
+			return null;
+		
+	  int length = (int)f.length();
+	  	
+	  try (FileInputStream out = new FileInputStream(f);)
+	  {
+		result = new byte[length];  
+		out.read(result, 0, length);
+		return result;
+	  }
+	  catch (Throwable t)
+	  {
+		  t.printStackTrace();
+		  return null;
+	  }
   }
   
   public static ArrayList<String> readLines(String file)

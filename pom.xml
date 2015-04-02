@@ -8,9 +8,14 @@
 	<description>A package for managing internationalization files and other utility</description>
 	<dependencies>
 		<dependency>
+			<groupId>net.sf.opencsv</groupId>
+			<artifactId>opencsv</artifactId>
+			<version>2.0</version>
+		</dependency>
+		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<version>1.12.4</version>
+			<version>1.14.8</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
