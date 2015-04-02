@@ -3,3 +3,4 @@ target
 .classpath
 .settings/org.eclipse.jdt.core.prefs
 target
+/bin/
