@@ -254,4 +254,14 @@ public class Utility
   {
     COLOR, CURRENCY, DATE, INTEGER, REAL, TEXT;
   }
+  
+  public static byte[] encode(int i)
+  {
+    return new byte[]{ (byte) (i >>> 24), (byte) (i >>> 16), (byte) (i >>> 8), (byte) (i >>> 0) };
+  }
+  
+  public static int decode(byte a, byte b, byte c, byte d)
+  {
+    return  (a & 0xFF) << 24 | (b & 0xFF) << 16 | (c & 0xFF) << 8 | (d & 0xFF);
+  }
 }
