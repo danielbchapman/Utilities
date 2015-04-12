@@ -250,6 +250,20 @@ public class Utility
       return monday.getTime();
   }
   
+  public static int decodeBytes(byte a, byte b, byte c, byte d)
+  {
+    return (a & 0xFF) << 24 | (b & 0xFF) << 16 | (c & 0xFF) << 8 | (d & 0xFF);
+  }
+  public static int decodeBytes(byte[] len4)
+  {
+    return(len4[0] & 0xFF) << 24 | (len4[1] & 0xFF) << 16 | (len4[2] & 0xFF) << 8 | (len4[3] & 0xFF); 
+  }
+  
+  public static byte[] encodeBytes(int integer)
+  {
+    return new byte[]{ (byte) (integer >>> 24), (byte) (integer >>> 16), (byte) (integer >>> 8), (byte) (integer >>> 0) };
+  }
+  
   public enum BindingType
   {
     COLOR, CURRENCY, DATE, INTEGER, REAL, TEXT;
