@@ -61,6 +61,35 @@ public class FileUtil
 	  }
   }
   
+  public static String readFile(String file)
+  {
+    StringBuilder b = new StringBuilder();
+    try
+    {
+      File f = new File(file);
+      if(!f.exists())
+        return null;
+      
+      BufferedReader reader = new BufferedReader(new FileReader(file));
+      String line = null;
+      while((line = reader.readLine()) != null)
+      {
+        b.append(line);
+        b.append("\n");
+      }
+      
+      reader.close();
+    }
+    catch (IOException e)
+    {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+      return null;
+    }
+    
+    return b.toString();
+  }
+  
   public static ArrayList<String> readLines(String file)
   {
     ArrayList<String> lines = new ArrayList<>();
@@ -75,6 +104,8 @@ public class FileUtil
       String line = null;
       while((line = reader.readLine()) != null)
         lines.add(line);
+      
+      reader.close();
     }
     catch (IOException e)
     {
