@@ -4,15 +4,28 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.Window;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Objects;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.text.Document;
+import javax.swing.text.JTextComponent;
 
 /**
  * A group of static helper methods that provide basic UI functionality like 
@@ -40,9 +53,9 @@ public class UiUtility
     return new Color(one.getRed(), one.getGreen(), one.getBlue(), opacity);
   }
   
-  public static GridBagConstraints getNoFill(int x, int y)
+  public static GBC getNoFill(int x, int y)
   {
-    GridBagConstraints gbc = new GridBagConstraints();
+    GBC gbc = new GBC();
     return setCoordinates(gbc, x, y);
   }
   
@@ -141,9 +154,9 @@ public class UiUtility
     // shell.setLocation(rect.width - shell.getSize().x, rect.height - shell.getSize().y);
   }
 
-  public static GridBagConstraints getFillBoth()
+  public static GBC getFillBoth()
   {
-    GridBagConstraints gbc = new GridBagConstraints();
+    GBC gbc = new GBC();
     gbc.anchor = GridBagConstraints.LINE_START;
     gbc.fill = GridBagConstraints.BOTH;
     gbc.weightx = 1.0;
@@ -152,14 +165,14 @@ public class UiUtility
     return gbc;
   }
 
-  public static GridBagConstraints getFillBoth(int x, int y)
+  public static GBC getFillBoth(int x, int y)
   {
     return setCoordinates(getFillBoth(), x, y);
   }
 
-  public static GridBagConstraints getFillHorizontal()
+  public static GBC getFillHorizontal()
   {
-    GridBagConstraints gbc = new GridBagConstraints();
+    GBC gbc = new GBC();
     gbc.anchor = GridBagConstraints.LINE_START;
     gbc.fill = GridBagConstraints.HORIZONTAL;
     gbc.weightx = 1.0;
@@ -168,14 +181,14 @@ public class UiUtility
     return gbc;
   }
 
-  public static GridBagConstraints getFillHorizontal(int x, int y)
+  public static GBC getFillHorizontal(int x, int y)
   {
     return setCoordinates(getFillHorizontal(), x, y);
   }
 
-  public static GridBagConstraints getFillVertical()
+  public static GBC getFillVertical()
   {
-    GridBagConstraints gbc = new GridBagConstraints();
+    GBC gbc = new GBC();
     gbc.anchor = GridBagConstraints.LINE_START;
     gbc.fill = GridBagConstraints.VERTICAL;
     gbc.weightx = 0.0;
@@ -184,7 +197,7 @@ public class UiUtility
     return gbc;
   }
 
-  public static GridBagConstraints getFillVertical(int x, int y)
+  public static GBC getFillVertical(int x, int y)
   {
     return setCoordinates(getFillVertical(), x, y);
   }
@@ -234,7 +247,7 @@ public class UiUtility
     parent.add(child, container);
   }
 
-  public static GridBagConstraints setCoordinates(GridBagConstraints gbc, int x, int y)
+  public static GBC setCoordinates(GBC gbc, int x, int y)
   {
     gbc.gridx = x;
     gbc.gridy = y;
@@ -253,5 +266,152 @@ public class UiUtility
 
     frame.setLocation(200, 200);
     return frame;
+  }
+  
+  /**
+   * <p>
+   * http://stackoverflow.com/questions/3953208/value-change-listener-to-jtextfield
+   * </p>
+   * Installs a listener to receive notification when the text of any
+   * {@code JTextComponent} is changed. Internally, it installs a
+   * {@link DocumentListener} on the text component's {@link Document},
+   * and a {@link PropertyChangeListener} on the text component to detect
+   * if the {@code Document} itself is replaced.
+   * 
+   * @param text any text component, such as a {@link JTextField}
+   *        or {@link JTextArea}
+   * @param changeListener a listener to receieve {@link ChangeEvent}s
+   *        when the text is changed; the source object for the events
+   *        will be the text component
+   * @throws NullPointerException if either parameter is null
+   */
+  public static void addChangeListener(final JTextComponent text, final ChangeListener changeListener) {
+      Objects.requireNonNull(text);
+      Objects.requireNonNull(changeListener);
+      final DocumentListener dl = new DocumentListener() {
+          private int lastChange = 0, lastNotifiedChange = 0;
+
+          @Override
+          public void insertUpdate(DocumentEvent e) {
+              changedUpdate(e);
+          }
+
+          @Override
+          public void removeUpdate(DocumentEvent e) {
+              changedUpdate(e);
+          }
+
+          @Override
+          public void changedUpdate(DocumentEvent e) {
+              lastChange++;
+              SwingUtilities.invokeLater( new Runnable(){
+                public void run()
+                {
+                  if (lastNotifiedChange != lastChange) {
+                    lastNotifiedChange = lastChange;
+                    changeListener.stateChanged(new ChangeEvent(text));
+                }
+                }
+              });
+          }
+    };
+    text.addPropertyChangeListener("document", new PropertyChangeListener()
+    {
+
+      @Override
+      public void propertyChange(PropertyChangeEvent e)
+      {
+        Document d1 = (Document) e.getOldValue();
+        Document d2 = (Document) e.getNewValue();
+        if (d1 != null)
+          d1.removeDocumentListener(dl);
+        if (d2 != null)
+          d2.addDocumentListener(dl);
+        dl.changedUpdate(null);
+
+      }
+    }
+      );
+      Document d = text.getDocument();
+      if (d != null) d.addDocumentListener(dl);
+  }
+  
+  
+  /**
+   * A simple extension of the GridBagConstraints to 
+   * allow a chainable API so that the manual isn't necesasry for
+   * basic UI layout. 
+   *
+   */
+  public static class GBC extends GridBagConstraints
+  {
+    private static final long serialVersionUID = -956731842441502322L;
+    
+    public GBC at(int x, int y)
+    {
+      this.gridx = x;
+      this.gridy = y;
+      return this;
+    }
+    
+    public GBC fillVertical()
+    {
+      this.fill = GridBagConstraints.VERTICAL;
+      return this;
+    }
+    
+    public GBC fillHorizontal()
+    {
+      this.fill = GridBagConstraints.HORIZONTAL;
+      return this;
+    }
+    
+    public GBC fillBoth()
+    {
+      this.fill = GridBagConstraints.BOTH;
+      return this;
+    }
+    
+    public GBC weight(double x, double y)
+    {
+      this.weightx = x;
+      this.weighty = y;
+      return this;
+    }
+    
+    /**
+     * @param top
+     * @param right
+     * @param bottom
+     * @param left
+     * @return a reference to this object  
+     * 
+     */
+    public GBC insets(int top, int right, int bottom, int left)
+    {
+      this.insets = new Insets(top, left, bottom, right);
+      this.insets(top, right, bottom, left);
+      return this;
+    }
+    
+    public GBC size(int width, int height)
+    {
+      this.gridwidth = width;
+      this.gridheight = height;
+      return this;
+    }
+    
+    public GBC padding(int x, int y)
+    {
+      this.ipadx = x;
+      this.ipady = y;
+      return this;
+    }
+    
+    public GBC anchor(int c)
+    {
+      this.anchor = c;
+      return this;
+    }
   }
 }
