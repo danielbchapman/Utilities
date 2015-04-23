@@ -22,62 +22,62 @@ import java.util.ArrayList;
 
 public class FileUtil
 {
-  
+
   public static void makeDirs(File file)
   {
-    if(!file.exists())
+    if (!file.exists())
     {
       File parent = file.getAbsoluteFile();
-      if(!parent.isDirectory())
+      if (!parent.isDirectory())
         parent = file.getParentFile();
-      
-      if(parent == null)
-        return; //root
-      
+
+      if (parent == null)
+        return; // root
+
       parent.mkdirs();
     }
   }
-  
+
   public static byte[] readData(String file)
   {
-	  byte[] result = null;
-	  
-	  File f = new File(file);
-		if(!f.exists())
-			return null;
-		
-	  int length = (int)f.length();
-	  	
-	  try (FileInputStream out = new FileInputStream(f);)
-	  {
-		result = new byte[length];  
-		out.read(result, 0, length);
-		return result;
-	  }
-	  catch (Throwable t)
-	  {
-		  t.printStackTrace();
-		  return null;
-	  }
+    byte[] result = null;
+
+    File f = new File(file);
+    if (!f.exists())
+      return null;
+
+    int length = (int) f.length();
+
+    try (FileInputStream out = new FileInputStream(f);)
+    {
+      result = new byte[length];
+      out.read(result, 0, length);
+      return result;
+    }
+    catch (Throwable t)
+    {
+      t.printStackTrace();
+      return null;
+    }
   }
-  
+
   public static String readFile(String file)
   {
     StringBuilder b = new StringBuilder();
     try
     {
       File f = new File(file);
-      if(!f.exists())
+      if (!f.exists())
         return null;
-      
+
       BufferedReader reader = new BufferedReader(new FileReader(file));
       String line = null;
-      while((line = reader.readLine()) != null)
+      while ((line = reader.readLine()) != null)
       {
         b.append(line);
         b.append("\n");
       }
-      
+
       reader.close();
     }
     catch (IOException e)
@@ -86,25 +86,24 @@ public class FileUtil
       e.printStackTrace();
       return null;
     }
-    
+
     return b.toString();
   }
-  
-  public static ArrayList<String> readLines(String file)
+
+  public static ArrayList<String> readLines(File file)
   {
     ArrayList<String> lines = new ArrayList<>();
-    
+
     try
     {
-      File f = new File(file);
-      if(!f.exists())
+      if (!file.exists())
         return null;
-      
+
       BufferedReader reader = new BufferedReader(new FileReader(file));
       String line = null;
-      while((line = reader.readLine()) != null)
+      while ((line = reader.readLine()) != null)
         lines.add(line);
-      
+
       reader.close();
     }
     catch (IOException e)
@@ -113,14 +112,20 @@ public class FileUtil
       e.printStackTrace();
       return null;
     }
-    
+
     return lines;
   }
+
+  public static ArrayList<String> readLines(String file)
+  {
+    return readLines(new File(file));
+  }
+
   public static void writeFile(String file, byte[] bytes)
   {
     File f = new File(file);
     FileUtil.makeDirs(f);
-    
+
     try (FileOutputStream out = new FileOutputStream(f))
     {
       out.write(bytes);
@@ -131,7 +136,7 @@ public class FileUtil
       throw new RuntimeException(e.getMessage(), e);
     }
   }
-  
+
   public static void copyDir(String from, String to)
   {
     try
@@ -163,12 +168,12 @@ public class FileUtil
   {
     try
     {
-      if(!Files.exists(dir))
+      if (!Files.exists(dir))
         Files.createDirectories(dir);
-      
-      if(!Files.isDirectory(dir))
+
+      if (!Files.isDirectory(dir))
         throw new RuntimeException("Can not create path inside non-directory " + dir);
-        
+
       Path toMake = Paths.get(dir.toString(), newPath);
       Files.createDirectories(toMake);
     }
@@ -198,12 +203,12 @@ public class FileUtil
   public static void delete(String name)
   {
     Path x = Paths.get(name);
-    if(!Files.exists(x))
+    if (!Files.exists(x))
       return;
-    
-    if(Files.isDirectory(x))
+
+    if (Files.isDirectory(x))
       return;
-    
+
     try
     {
       Files.delete(x);
@@ -213,7 +218,7 @@ public class FileUtil
       throw new RuntimeException(e.getMessage(), e);
     }
   }
-  
+
   public static String print(String from)
   {
     try
@@ -325,32 +330,26 @@ public class FileUtil
       return FileVisitResult.CONTINUE;
     }
   }
-  
+
   public static <T extends Serializable> void serialize(File f, T t)
   {
     makeDirs(f);
-    try(
-        FileOutputStream fo = new FileOutputStream(f);
-        ObjectOutputStream o = new ObjectOutputStream(fo);
-        )
+    try (FileOutputStream fo = new FileOutputStream(f); ObjectOutputStream o = new ObjectOutputStream(fo);)
     {
-      o.writeObject(t);    
+      o.writeObject(t);
     }
     catch (IOException e)
     {
       throw new RuntimeException(e.getMessage(), e);
     }
   }
-  
+
   @SuppressWarnings("unchecked")
   public static Object deserialize(File f)
   {
-    if(!f.exists())
+    if (!f.exists())
       return null;
-    try(
-        FileInputStream fo = new FileInputStream(f);
-        ObjectInputStream in = new ObjectInputStream(fo);
-        )
+    try (FileInputStream fo = new FileInputStream(f); ObjectInputStream in = new ObjectInputStream(fo);)
     {
       return in.readObject();
     }
