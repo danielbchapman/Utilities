@@ -1,7 +1,6 @@
 package com.danielbchapman.code;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -10,13 +9,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import com.danielbchapman.utility.UtilityText;
-
-
+@SuppressWarnings("restriction")
 public class TSVDataReader extends Application
 {
 
@@ -28,11 +24,11 @@ public class TSVDataReader extends Application
   {
     launch();
   }
-  @Override
+  @Override  
+  @SuppressWarnings("unused")
   public void start(Stage stage) throws Exception
   {
     VBox root = new VBox();
-    
     final Label Instructions = new Label("Input a TSV/Newline separates set of data to be converted into a decimal[][]");
     final Label lower = new Label("Use " + LOWER + " for lowerCase (method)");
     final Label staticc = new Label("Use " + STATIC + " for STATIC_CASE");
@@ -135,7 +131,6 @@ public class TSVDataReader extends Application
         ","
       };
     
-    String raw = input;
     if(input == null)
       return null;
     

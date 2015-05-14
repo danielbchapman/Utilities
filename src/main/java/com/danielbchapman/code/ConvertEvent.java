@@ -1,7 +1,6 @@
 package com.danielbchapman.code;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
@@ -10,7 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
-
+@SuppressWarnings("restriction")
 public class ConvertEvent extends Application
 {
   public static String text;

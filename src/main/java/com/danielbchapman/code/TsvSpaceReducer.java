@@ -1,6 +1,4 @@
 package com.danielbchapman.code;
-import com.danielbchapman.utility.UtilityText;
-
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -10,6 +8,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import com.danielbchapman.utility.UtilityText;
+@SuppressWarnings("restriction")
 public class TsvSpaceReducer extends Application
 {
 

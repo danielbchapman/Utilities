@@ -60,6 +60,7 @@ public class MessageUtility
   {
     private String baseName;
     private String directory;
+    @SuppressWarnings("unused")
     private String directoryPath;
     private String fallback;
     private String fallbackPath;

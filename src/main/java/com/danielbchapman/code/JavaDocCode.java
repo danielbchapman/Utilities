@@ -12,7 +12,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-
+@SuppressWarnings("restriction")
 public class JavaDocCode extends Application
 {
 

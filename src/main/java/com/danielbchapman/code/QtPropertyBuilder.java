@@ -1,11 +1,4 @@
 package com.danielbchapman.code;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.PrintWriter;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -15,12 +8,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import lombok.Data;
 
-import com.danielbchapman.utility.Utility;
-import com.danielbchapman.utility.UtilityText;
-
-
+@SuppressWarnings("restriction")
 public class QtPropertyBuilder extends Application
 {  
   public static void main(String ... args)

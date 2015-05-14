@@ -18,7 +18,7 @@ public class ReloadingClassLoader extends ClassLoader
 
   private File classPath;
 
-  public Class loadClass(String name) throws ClassNotFoundException
+  public Class<?> loadClass(String name) throws ClassNotFoundException
   {
     if (name == null || !name.contains("LambdaBrushDynamic"))
     {

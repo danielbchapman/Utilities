@@ -1,10 +1,8 @@
 package com.danielbchapman.utility;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
@@ -344,7 +342,6 @@ public class FileUtil
     }
   }
 
-  @SuppressWarnings("unchecked")
   public static Object deserialize(File f)
   {
     if (!f.exists())
