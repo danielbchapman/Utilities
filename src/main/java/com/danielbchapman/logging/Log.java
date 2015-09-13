@@ -1,18 +1,14 @@
 package com.danielbchapman.logging;
 
-import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.function.Function;
-import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import javax.swing.text.SimpleAttributeSet;
 
 public class Log
 {
   public static Logger LOG;
+  public static boolean IS_DEBUG = true;
   
   static 
   {
@@ -37,6 +33,7 @@ public class Log
   
   public static void debug(String msg)
   {
+    System.out.println(msg);
     LOG.fine(msg);
   }
   
