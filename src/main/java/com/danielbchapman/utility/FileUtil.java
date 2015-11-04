@@ -217,6 +217,29 @@ public class FileUtil
     }
   }
 
+  public static boolean copy(String from, String to)
+  {
+    return copy(new File(from), new File(to));
+  }
+  public static boolean copy(File from, File to)
+  {
+    try
+    {
+      java.nio.file.Files.copy( 
+          from.toPath(), 
+          to.toPath(),
+          java.nio.file.StandardCopyOption.REPLACE_EXISTING,
+          java.nio.file.StandardCopyOption.COPY_ATTRIBUTES,
+          java.nio.file.LinkOption.NOFOLLOW_LINKS );
+      
+      return true;
+    }
+    catch (IOException e)
+    {
+      e.printStackTrace();
+      return false;
+    }
+  }
   public static String print(String from)
   {
     try
