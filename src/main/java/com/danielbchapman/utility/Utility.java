@@ -34,6 +34,40 @@ public class Utility
 {
   public static Logger log = Logger.getLogger("UTILITY");
 
+  /**
+   * Returns the value of the second argument if the 
+   * first argument is null.
+   * 
+   * @param obj the value
+   * @param def the default value
+   * @return <Return Description>  
+   * 
+   */
+  public static <T> T ifNull(T obj, T def)
+  {
+    if(obj == null)
+      return def;
+    else
+      return obj;
+  }
+  
+  /**
+   * A specialized version of the ifNull method for
+   * strings that returns the default if the string is
+   * null or empty.
+   * @param str
+   * @param def
+   * @return str or def  
+   * 
+   */
+  public static String ifEmpty(String str, String def)
+  {
+    if(UtilityText.isEmpty(str))
+      return def;
+    else
+      return str;
+  }
+  
   public static void appendFile(String path, String string)
   {
     StringBuffer buffer = readFile(path);
