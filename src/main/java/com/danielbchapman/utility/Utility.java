@@ -101,7 +101,7 @@ public class Utility
    * @param <T>
    * @param one
    * @param two
-   * @return <Return Description>  
+   * @return -1 if less, 0 if equal, 1 if greater 
    * 
    */
   @SuppressWarnings({ "unchecked", "rawtypes" })
