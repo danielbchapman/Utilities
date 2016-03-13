@@ -15,6 +15,7 @@ import com.danielbchapman.utility.Utility;
 public class MessageUtility
 {
   public static final String DEFAULT_INTERNATIONALIZATION_FILES = "language";
+  @Deprecated
   public static final String DEFAULT_FALLBACK_INTERNATIONALIZATION_FILES = "i1n8";
   private static WeakHashMap<Class<?>, Instance> instanceMap = new WeakHashMap<Class<?>, Instance>();
   private static Locale locale = Locale.getDefault();
@@ -206,7 +207,7 @@ public class MessageUtility
 
     private void writePair(String key, String value)
     {
-      Utility.appendFile(fallbackPath, key + " = " + value);
+      Utility.appendFile(directoryPath, key + " = " + value);
     }
     
     private Object[] createBundle(String directoryPath, String baseName, Locale locale)
