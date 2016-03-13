@@ -20,6 +20,8 @@ public class MessageUtility
   private static WeakHashMap<Class<?>, Instance> instanceMap = new WeakHashMap<Class<?>, Instance>();
   private static Locale locale = Locale.getDefault();
 
+  public static Instance GLOBAL = new Instance(DEFAULT_INTERNATIONALIZATION_FILES, DEFAULT_FALLBACK_INTERNATIONALIZATION_FILES, "global", locale);
+  
   public static Instance getInstance(Class<?> clazz)
   {
     Instance instance = instanceMap.get(clazz);
