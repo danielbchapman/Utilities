@@ -159,6 +159,8 @@ public class MessageUtility
     protected synchronized String logMissingKey(String key, Object... params)
     {
       StringBuilder missing = new StringBuilder();
+      if(key.startsWith("*"))
+    	  return key; //Abort writing, this avoids duplicates
       missing.append("*");
       missing.append(key);
       int i = 0;
