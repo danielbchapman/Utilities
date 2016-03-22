@@ -86,6 +86,26 @@ public class Safe
     return a.equals(b);
   }
 
+  public static Float parseFloat(String val)
+  {
+	  return parseFloat(val, null);
+  }
+  
+  public static Float parseFloat(String val, Float def)
+  {
+	  if(val == null || Text.empty(val))
+		  return def;
+	  
+	  try
+	  {
+		  return Float.parseFloat(val);  
+	  }
+	  catch (NumberFormatException e)
+	  {
+		  return def;
+	  }
+  }
+  
   public static BigDecimal parseBigDecimal(String input)
   {
     if (input == null)
@@ -240,6 +260,8 @@ public class Safe
       return null;
     }
   }
+  
+
 }
 
 
