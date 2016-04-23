@@ -210,16 +210,28 @@ public class Utility
 	public static void touchFile(File file)
 	{
 		if (!file.exists())
-			file.getParentFile().mkdirs();
+		{
+		  if(file.getParentFile() != null && file.getParentFile().exists())
+		    file.getParentFile().mkdirs();
+		}
+		
+		if(file.isDirectory())
+		{
+		  file.mkdirs();
+		}
+		else
+		{
+		  try
+	    {
+	      file.createNewFile();
+	    }
+	    catch (IOException e)
+	    {
+	      throw new RuntimeException(e.getMessage(), e);
+	    }  
+		}
 
-		try
-		{
-			file.createNewFile();
-		}
-		catch (IOException e)
-		{
-			throw new RuntimeException(e.getMessage(), e);
-		}
+		
 	}
 
 	public static <T> ArrayList<T> list(T[] t)
@@ -250,6 +262,8 @@ public class Utility
 	public static void writeFile(String path, String string)
 	{
 		File file = new File(path);
+		if(!file.exists())
+		  file.mkdirs();
 		BufferedWriter buffer = null;
 		FileWriter writer = null;
 

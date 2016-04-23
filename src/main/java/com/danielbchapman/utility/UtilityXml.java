@@ -56,7 +56,7 @@ public class UtilityXml
 	
 	public static NodeList runXpath(String xpath, Document document)
 	{
-		
+		throw new RuntimeException("NOT IMPLEMENTED");
 	}
 	
 	public static String printXml(Document doc)
