@@ -144,6 +144,8 @@ public class UtilityText
   
   public static String lowerCaseFirst(String text)
   {
+	if(isEmpty(text))
+		return "";
     char[] ret = text.toCharArray();
     ret[0] = Character.toLowerCase(ret[0]);
     return new String(ret);
