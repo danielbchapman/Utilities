@@ -6,9 +6,11 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
@@ -54,9 +56,42 @@ public class UtilityXml
 		return null;
 	}
 	
-	public static NodeList runXpath(String xpath, Document document)
+	/**
+   * @param xpath
+   * @param document
+   * @return null on exception (exception will be logged)
+   */
+  public static Node node(Document document, String xpath)
+  {
+    XPathExpression path = compileXPath(xpath);
+    try
+    {
+      return (Node) path.evaluate(document, XPathConstants.NODE);
+    }
+    catch (XPathExpressionException e)
+    {
+      e.printStackTrace();
+      return null;
+    }
+  }
+  
+	/**
+	 * @param xpath
+	 * @param document
+	 * @return null on exception (exception will be logged)
+	 */
+	public static NodeList nodeList(Document document, String xpath)
 	{
-		throw new RuntimeException("NOT IMPLEMENTED");
+		XPathExpression path = compileXPath(xpath);
+		try
+    {
+      return (NodeList) path.evaluate(document, XPathConstants.NODESET);
+    }
+    catch (XPathExpressionException e)
+    {
+      e.printStackTrace();
+      return null;
+    }
 	}
 	
 	public static String printXml(Document doc)
