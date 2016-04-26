@@ -18,6 +18,7 @@ import javax.xml.xpath.XPathFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.xpath.XPathResult;
 import org.xml.sax.SAXException;
 
 
@@ -94,6 +95,20 @@ public class UtilityXml
     }
 	}
 	
+	public static String text(Node node, String xpath)
+	{
+	  XPathExpression exp = compileXPath(xpath);
+	  try
+    {
+      return (String) exp.evaluate(node);
+    }
+    catch (XPathExpressionException e)
+    {
+      e.printStackTrace();
+      return null;
+    }
+	}
+	
 	public static String printXml(Document doc)
 	{
 		if(doc == null)
@@ -117,6 +132,47 @@ public class UtilityXml
 		return builder.toString();
 	}
 	
+	/**
+	 * @param node the node to read
+	 * @return the value of this node's inner text node 
+	 * <tt>
+	 * example: 
+	 *   &lt;Node&gt;Has Some Text&lt;/Node&gt;
+	 *   &lt;Node2&gt;Has Some Text&lt;/Node2&gt;
+	 *   
+	 *   called on the node "Node" would result in 
+	 *   "Has Some Text"
+	 *   
+	 *   called on the node "Node" would result in 
+   *   null (as this is empty)
+	 * </tt>
+	 */
+	public static String getNodeText(Node node)
+	{
+	  if(node.getNodeType() == Node.ELEMENT_NODE)
+	  {
+	    Node text = node.getFirstChild();
+	    if(text != null && text.getNodeType() == Node.TEXT_NODE)
+	    {
+	      if(isNullOrWhitespace(node))
+	        return null;
+	      else
+	        return node.getTextContent();
+	    }
+	    else 
+	      return null;
+	  }
+	  else 
+	    return null;
+	}
+	
+	public static boolean isNullOrWhitespace(Node node)
+	{
+	  if(node.getNodeType() == Node.TEXT_NODE)
+	    return UtilityText.isEmpty(node.getTextContent());
+	  
+	  return false;
+	}
 	private static void printXmlHelper(Node node, StringBuilder builder, int indent)
 	{
 		if(node == null)
