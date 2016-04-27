@@ -22,5 +22,6 @@ public class TestXmlUtility
 	public void TestXPathCompile()
 	{
 		XPathExpression xpath = Xml.compileXPath("*");
+		System.out.println(xpath);
 	}
 }
