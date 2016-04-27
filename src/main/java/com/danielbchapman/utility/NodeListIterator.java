@@ -26,8 +26,8 @@ public class NodeListIterator implements Iterator<Node>, Iterable<Node>
       isEmpty = true;
     }
     
-    current = list.item(0);
-    next = list.item(1); 
+    current = null;
+    next = list.item(0); 
   }
   @Override
   public boolean hasNext()

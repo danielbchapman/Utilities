@@ -1,11 +1,16 @@
 package com.danielbchapman.utilites.tests;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import com.danielbchapman.utility.NodeListIterator;
 import com.danielbchapman.utility.UtilityXml;
@@ -16,7 +21,25 @@ public class NodeIteratorTest
   public void TestNodeIteratorStream()
   {
     Document doc = UtilityXml.readDocument(new File("test/turco-test.xml"));
-    new NodeListIterator(doc.getChildNodes().item(0).getChildNodes()).stream().forEach(x -> System.out.println("!" + x));
+    NodeList children = doc.getChildNodes().item(0).getChildNodes();
+    
+    long count = children.getLength();
+    long streamCount =  new NodeListIterator(children).stream().count();
+    final ArrayList<Integer> bucket = new ArrayList<>();
+    new NodeListIterator(children).stream().forEach(x -> bucket.add(0));
+    Assert.assertTrue(String.format("Count %d != Stream count %d", count, streamCount),  count == streamCount);
+    Assert.assertTrue(count == bucket.size());
+  }
+  
+  @Test
+  public void TestNodeIteratorStreamRemove()
+  {
+    Document doc = UtilityXml.readDocument(new File("test/turco-test.xml"));
+    NodeList children = doc.getChildNodes().item(0).getChildNodes();
+    
+    List<Node> nodes = new NodeListIterator(children).stream().filter(n -> n.getNodeType() != Node.TEXT_NODE).collect(Collectors.toList());
+    nodes.stream().forEach(System.out::println);
+      
   }
   
   @Test
