@@ -7,20 +7,20 @@ import javax.xml.xpath.XPathExpression;
 import org.junit.Test;
 import org.w3c.dom.Document;
 
-import com.danielbchapman.utility.UtilityXml;
+import com.danielbchapman.utility.Xml;
 
 public class TestXmlUtility
 {
 	@Test
 	public void TestDocumentRead()
 	{
-		Document xml = UtilityXml.readDocument(new File("tests/xml/vectorworks.xml"));
-		System.out.println(UtilityXml.printXml(xml));
+		Document xml = Xml.readDocument(new File("tests/xml/vectorworks.xml"));
+		System.out.println(Xml.printXml(xml));
 	}
 	
 	@Test
 	public void TestXPathCompile()
 	{
-		XPathExpression xpath = UtilityXml.compileXPath("*");
+		XPathExpression xpath = Xml.compileXPath("*");
 	}
 }

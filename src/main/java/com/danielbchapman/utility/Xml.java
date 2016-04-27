@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.stream.Stream;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -27,7 +28,7 @@ import org.xml.sax.SAXException;
 
 import com.danielbchapman.text.Text;
 
-public class UtilityXml
+public class Xml
 {
   public static Document readDocument(File file)
   {
@@ -81,6 +82,28 @@ public class UtilityXml
     }
   }
 
+  /**
+   * 
+   * @param list this NodeList as an iterator
+   * @return an Iterable version of the node-list from  
+   * 
+   */
+  public static NodeListIterator iterator(NodeList list)
+  {
+    return new NodeListIterator(list);
+  }
+  
+  /**
+   * Returns a stream from this node list
+   * @param list
+   * @return a stream from this node list
+   * 
+   */
+  public static Stream<Node> stream(NodeList list)
+  {
+    return new NodeListIterator(list).stream();
+  }
+  
   /**
    * @param xpath
    * @param document

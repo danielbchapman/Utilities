@@ -13,14 +13,14 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import com.danielbchapman.utility.NodeListIterator;
-import com.danielbchapman.utility.UtilityXml;
+import com.danielbchapman.utility.Xml;
 
 public class NodeIteratorTest
 {
   @Test
   public void TestNodeIteratorStream()
   {
-    Document doc = UtilityXml.readDocument(new File("test/turco-test.xml"));
+    Document doc = Xml.readDocument(new File("test/turco-test.xml"));
     NodeList children = doc.getChildNodes().item(0).getChildNodes();
     
     long count = children.getLength();
@@ -34,7 +34,7 @@ public class NodeIteratorTest
   @Test
   public void TestNodeIteratorStreamRemove()
   {
-    Document doc = UtilityXml.readDocument(new File("test/turco-test.xml"));
+    Document doc = Xml.readDocument(new File("test/turco-test.xml"));
     NodeList children = doc.getChildNodes().item(0).getChildNodes();
     
     //Before
@@ -61,7 +61,7 @@ public class NodeIteratorTest
   @Test
   public void TestNodeIterator()
   {
-    Document doc = UtilityXml.readDocument(new File("test/turco-test.xml"));
+    Document doc = Xml.readDocument(new File("test/turco-test.xml"));
     for(Node n : new NodeListIterator(doc.getChildNodes().item(0).getChildNodes()))
       System.out.println(n + " Children:[" + n.getChildNodes().getLength() + "]");
   }
@@ -69,14 +69,14 @@ public class NodeIteratorTest
   @Test
   public void TestXmlDoc()
   {
-    Document doc = UtilityXml.readDocument(new File("test/turco-test.xml"));
+    Document doc = Xml.readDocument(new File("test/turco-test.xml"));
     Assert.assertTrue(doc.getChildNodes().getLength() > 0);
   }
   
   @Test
   public void TestNodeIteratorRemove()
   {
-    Document doc = UtilityXml.readDocument(new File("test/turco-test.xml"));
+    Document doc = Xml.readDocument(new File("test/turco-test.xml"));
     int count = doc.getChildNodes().item(0).getChildNodes().getLength();
     System.out.println("------------------BEFORE " + count);
     for(Node n : new NodeListIterator(doc.getChildNodes().item(0).getChildNodes()))
