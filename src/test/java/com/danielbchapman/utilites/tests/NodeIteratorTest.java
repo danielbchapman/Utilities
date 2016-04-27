@@ -37,9 +37,25 @@ public class NodeIteratorTest
     Document doc = UtilityXml.readDocument(new File("test/turco-test.xml"));
     NodeList children = doc.getChildNodes().item(0).getChildNodes();
     
-    List<Node> nodes = new NodeListIterator(children).stream().filter(n -> n.getNodeType() != Node.TEXT_NODE).collect(Collectors.toList());
-    nodes.stream().forEach(System.out::println);
+    //Before
+    System.out.println("------------------------------BEFORE");
+    new NodeListIterator(children).stream().forEach(System.out::println);
+    //Clear whitespace
+    new NodeListIterator(children).stream()
+        .filter(n -> n.getNodeType() == Node.TEXT_NODE)
+        .forEach(n -> n.getParentNode().removeChild(n));
+    
+    new NodeListIterator(children).stream().forEach(System.out::println);
+    
+    boolean valid = new NodeListIterator(children).stream()
+      .anyMatch(n -> n.getNodeType() == Node.TEXT_NODE);
       
+    System.out.println("------------------------------AFTER");
+    new NodeListIterator(children)
+      .stream()
+      .forEach(System.out::println);
+    
+    Assert.assertTrue("There are Text Nodes present!!", valid);
   }
   
   @Test
