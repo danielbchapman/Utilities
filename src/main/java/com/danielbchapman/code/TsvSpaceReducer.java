@@ -8,7 +8,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import com.danielbchapman.utility.UtilityText;
+import com.danielbchapman.text.Text;
 @SuppressWarnings("restriction")
 public class TsvSpaceReducer extends Application
 {
@@ -47,7 +47,7 @@ public class TsvSpaceReducer extends Application
   {
     String[] split = in.split(separator);
     for (int i = 0; i < split.length; i++)
-      split[i] = UtilityText.Code.clean(split[i]);
+      split[i] = Text.clean(split[i]);
 
     StringBuilder out = new StringBuilder();
     for (String s : split)

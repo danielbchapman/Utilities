@@ -63,10 +63,8 @@ public class MessageUtility
   {
     private String baseName;
     private String directory;
-    @SuppressWarnings("unused")
     private String directoryPath;
     private String fallback;
-    private String fallbackPath;
     private Locale locale;
     private ResourceBundle resourceBundle;
     private ResourceBundle resourceBundleFallback;
@@ -148,7 +146,6 @@ public class MessageUtility
       directoryPath = (String) main[1];
       
       resourceBundleFallback = (ResourceBundle) secondary[0];
-      fallbackPath = (String) secondary[1];
     }
 
     protected String logMissingKey(String key)

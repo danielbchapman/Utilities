@@ -12,7 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import lombok.Data;
 
-import com.danielbchapman.utility.UtilityText;
+import com.danielbchapman.text.Text;
 
 @SuppressWarnings("restriction")
 public class PortfolioContentBuilder extends Application
@@ -84,9 +84,9 @@ public class PortfolioContentBuilder extends Application
     ArrayList<Parts> parts = new ArrayList<Parts>();
     for(String s : raw)
     { 
-      String clean = UtilityText.Code.clean(s);
-      String lowerCase = UtilityText.lowerCaseFirst(clean);
-      String staticCase = UtilityText.Code.staticCase(lowerCase);
+      String clean = Text.clean(s);
+      String lowerCase = Text.lowerCaseFirst(clean);
+      String staticCase = Text.staticCase(lowerCase);
       
       Parts part = new Parts();
       

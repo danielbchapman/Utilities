@@ -12,7 +12,6 @@ import lombok.Data;
 
 import com.danielbchapman.text.Text;
 import com.danielbchapman.utility.Utility;
-import com.danielbchapman.utility.UtilityText;
 
 public class QtPropertyBuilderCore
 {
@@ -52,7 +51,7 @@ public class QtPropertyBuilderCore
         String rootName = f.getName().replaceAll(".gen", "");
         String header = rootName + ".h";
         String ifDef = rootName.toUpperCase() + "_H";
-        String className = UtilityText.capitalizeFirst(rootName).trim();
+        String className = Text.capitalizeFirst(rootName).trim();
         Pair<String, ArrayList<Parts>> parts = process(Utility.readFile(f.getAbsolutePath()).toString(), className);
           
         if(parts == null)
@@ -144,9 +143,9 @@ public class QtPropertyBuilderCore
         type = rowData[0];
         raw = rowData[1];
       }
-      String clean = UtilityText.Code.clean(raw);
-      String lowerCase = UtilityText.lowerCaseFirst(raw);
-      String staticCase = UtilityText.Code.staticCase(lowerCase);
+      String clean = Text.clean(raw);
+      String lowerCase = Text.lowerCaseFirst(raw);
+      String staticCase = Text.staticCase(lowerCase);
       
       Parts part = new Parts();
       

@@ -1,9 +1,10 @@
-	package com.danielbchapman.text;
+package com.danielbchapman.text;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 
 /**
  * A simple set of static methods for dealing with strings and text.
@@ -28,16 +29,17 @@ public class Text
    */
   public static String capitalize(String s)
   {
-	  if(s.length() > 2)
-	  {
-		  return Character.toUpperCase(s.charAt(0)) + s.substring(1);
-	  }
-	  else if (s.length() == 1)
-		  return Character.toUpperCase(s.charAt(0)) + "";
-	  else
-		  return s;
+    if (s.length() > 2)
+    {
+      return Character.toUpperCase(s.charAt(0)) + s.substring(1);
+    }
+    else
+      if (s.length() == 1)
+        return Character.toUpperCase(s.charAt(0)) + "";
+      else
+        return s;
   }
-  
+
   /**
    * @param one
    *            the first string to compare
@@ -62,28 +64,29 @@ public class Text
    */
   public static boolean containsIgnoreCase(String one, String two)
   {
-    if(one == null)
+    if (one == null)
       throw new IllegalArgumentException("Value " + one + " can not be null");
-    if(two == null)
+    if (two == null)
       return false;
 
-    if(one.toLowerCase().contains(two.toLowerCase()))
+    if (one.toLowerCase().contains(two.toLowerCase()))
       return true;
 
     return false;
   }
 
-  public static boolean containsIgnoreCase(String one, String ...strings )
+  public static boolean containsIgnoreCase(String one, String... strings)
   {
-	  if(strings == null)
-		  throw new IllegalArgumentException("vargs 'strings' can not be null");
-	  
-	  for(String s : strings)
-		  if(containsIgnoreCase(one,  s))
-			  return true;
-			  
-	  return false;
+    if (strings == null)
+      throw new IllegalArgumentException("vargs 'strings' can not be null");
+
+    for (String s : strings)
+      if (containsIgnoreCase(one, s))
+        return true;
+
+    return false;
   }
+
   /**
    * @param string
    * @return <b>true</b> if the string is null or empty <b>false</b> if it
@@ -152,7 +155,7 @@ public class Text
     }
     return builder.toString();
   }
-  
+
   /**
    * Return true if the string is empty or null
    * 
@@ -167,5 +170,47 @@ public class Text
       return true;
 
     return false;
+  }
+
+  public static String staticCase(String text)
+  {
+    char[] chars = text.toCharArray();
+    char[] buffer = new char[chars.length * 2];
+
+    int add = 0;
+    for (int i = 0; i < chars.length; i++)
+    {
+      if (Character.isUpperCase(chars[i]))
+      {
+        buffer[add + i] = '_';
+        add++;
+        buffer[add + i] = Character.toUpperCase(chars[i]);
+      }
+      else
+        buffer[add + i] = Character.toUpperCase(chars[i]);
+    }
+
+    return new String(Arrays.copyOf(buffer, chars.length + add));
+  }
+
+  public static String clean(String string)
+  {
+    return string.replaceAll("\\-", "").replaceAll("\\s+", "");
+  }
+
+  public static String capitalizeFirst(String text)
+  {
+    char[] ret = text.toCharArray();
+    ret[0] = Character.toUpperCase(ret[0]);
+    return new String(ret);
+  }
+
+  public static String lowerCaseFirst(String text)
+  {
+    if (Text.isEmpty(text))
+      return "";
+    char[] ret = text.toCharArray();
+    ret[0] = Character.toLowerCase(ret[0]);
+    return new String(ret);
   }
 }

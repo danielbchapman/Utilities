@@ -6,7 +6,6 @@ import java.util.HashSet;
 
 import com.danielbchapman.text.Text;
 import com.danielbchapman.utility.Utility;
-import com.danielbchapman.utility.UtilityText;
 
 public class StripDuplicates
 {

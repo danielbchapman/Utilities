@@ -9,7 +9,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import com.danielbchapman.utility.UtilityText;
+import com.danielbchapman.text.Text;
 
 @SuppressWarnings("restriction")
 public class TSVCodeBuilder extends Application
@@ -75,9 +75,9 @@ public class TSVCodeBuilder extends Application
     
     for(String s : raw)
     { 
-      String clean = UtilityText.Code.clean(s);
-      String lowerCase = UtilityText.lowerCaseFirst(clean);
-      String staticCase = UtilityText.Code.staticCase(lowerCase);
+      String clean = Text.clean(s);
+      String lowerCase = Text.lowerCaseFirst(clean);
+      String staticCase = Text.staticCase(lowerCase);
       
       String local = template;
       local = local

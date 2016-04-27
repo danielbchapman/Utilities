@@ -1,6 +1,5 @@
 package com.danielbchapman.utility;
 
-import java.lang.Iterable;
 import java.util.Iterator;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -52,13 +51,12 @@ public class NodeListIterator implements Iterator<Node>, Iterable<Node>
   public void remove()
   {
     if(isEmpty)
-      throw new IndexOutOfBoundsException("The node list is empty");
+      throw new UnsupportedOperationException("The node list is empty");
     
     Node parent = current.getParentNode();
-    if(parent == null)
+    if(parent == null) //this should probably throw an error
     {
-      parent.getOwnerDocument().removeChild(current);
-      return;
+      throw new UnsupportedOperationException("This node has no parent");
     }
     parent.removeChild(current);
   }
