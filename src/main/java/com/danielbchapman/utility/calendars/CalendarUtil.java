@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.TimeZone;
 import java.util.UUID;
 
-import com.danielbchapman.text.Utility;
+import com.danielbchapman.text.Text;
 
 public class CalendarUtil {
 	
@@ -163,6 +163,6 @@ public class CalendarUtil {
 	 */
 	public static String createIcalUid(String domain)
 	{
-	  return UUID.randomUUID().toString() + (Utility.isEmptyOrNull(domain) ? "@null.foo.bar" : domain);
+	  return UUID.randomUUID().toString() + (Text.isEmptyOrNull(domain) ? "@null.foo.bar" : domain);
 	}
 }

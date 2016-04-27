@@ -19,6 +19,8 @@ import java.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.danielbchapman.text.Text;
+
 /**
  * A simple set of static helper methods to do mundane tasks and reduce the
  * complexity of drawing/coding etc...
@@ -63,7 +65,7 @@ public class Utility
 	 */
 	public static String ifEmpty(String str, String def)
 	{
-		if(UtilityText.isEmpty(str))
+		if(Text.isEmpty(str))
 			return def;
 		else
 			return str;

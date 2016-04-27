@@ -157,7 +157,8 @@ public class FileUtil
     }
     catch (IOException e)
     {
-      throw new RuntimeException(e.getMessage(), e);
+      e.printStackTrace();
+      //throw new RuntimeException(e.getMessage(), e);
     }
 
   }

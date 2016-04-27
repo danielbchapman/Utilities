@@ -89,7 +89,7 @@ public class Text
    * @return <b>true</b> if the string is null or empty <b>false</b> if it
    *         contains data
    */
-  public static boolean empty(String string)
+  public static boolean isEmpty(String string)
   {
     if (string == null)
       return true;
@@ -100,7 +100,7 @@ public class Text
 
   public static boolean maximum(String string, int length)
   {
-    if (!empty(string))
+    if (!Text.isEmpty(string))
       if (string.length() >= length)
         return true;
       else
@@ -118,7 +118,7 @@ public class Text
    */
   public static boolean minimum(String string, int length)
   {
-    if (!empty(string))
+    if (!Text.isEmpty(string))
       if (string.length() < length)
         return false;
       else
@@ -151,5 +151,21 @@ public class Text
       }
     }
     return builder.toString();
+  }
+  
+  /**
+   * Return true if the string is empty or null
+   * 
+   *
+   */
+  public static boolean isEmptyOrNull(String x)
+  {
+    if (x == null)
+      return true;
+
+    if (x.trim().isEmpty())
+      return true;
+
+    return false;
   }
 }

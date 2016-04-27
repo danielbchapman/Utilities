@@ -10,6 +10,7 @@ import java.util.Date;
 
 import lombok.Data;
 
+import com.danielbchapman.text.Text;
 import com.danielbchapman.utility.Utility;
 import com.danielbchapman.utility.UtilityText;
 
@@ -120,7 +121,7 @@ public class QtPropertyBuilderCore
   @SuppressWarnings("unused")
   public static Pair<String, ArrayList<Parts>> process(String data, String className)
   {
-    if(UtilityText.isEmpty(data))
+    if(Text.isEmpty(data))
       return null;
     
     StringBuilder builder = new StringBuilder();

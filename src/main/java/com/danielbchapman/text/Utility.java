@@ -25,21 +25,7 @@ public class Utility
     return UUID.randomUUID();
   }
 
-  /**
-   * Return true if the string is empty or null
-   * 
-   *
-   */
-  public static boolean isEmptyOrNull(String x)
-  {
-    if (x == null)
-      return true;
 
-    if (x.trim().isEmpty())
-      return true;
-
-    return false;
-  }
 
   @SuppressWarnings("unchecked")
   public <T> T[] toArray(Collection<T> collection, Class<T> clazz)

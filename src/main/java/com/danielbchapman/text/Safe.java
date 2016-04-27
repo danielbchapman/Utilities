@@ -93,7 +93,7 @@ public class Safe
   
   public static Float parseFloat(String val, Float def)
   {
-	  if(val == null || Text.empty(val))
+	  if(val == null || Text.isEmpty(val))
 		  return def;
 	  
 	  try

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 
+import com.danielbchapman.text.Text;
 import com.danielbchapman.utility.Utility;
 import com.danielbchapman.utility.UtilityText;
 
@@ -20,7 +21,7 @@ public class StripDuplicates
     
     ArrayList<String> list = new ArrayList<String>();
     for(String x : unique)
-      if(!UtilityText.isEmpty(x))
+      if(!Text.isEmpty(x))
         list.add(x);
     
     Collections.sort(list);
