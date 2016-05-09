@@ -29,24 +29,44 @@ import com.danielbchapman.text.Text;
 
 public class Xml
 {
-  public static Document readDocument(File file)
+  private static void appendLine(String line, int sets, StringBuilder builder)
   {
-    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-    DocumentBuilder builder;
-    try
-    {
-      builder = factory.newDocumentBuilder();
-      Document doc = builder.parse(file);
-      return doc;
-    }
-    catch (ParserConfigurationException | SAXException | IOException e)
-    {
-      e.printStackTrace();
-    }
-
-    return null;
+    for (int i = 0; i < sets; i++)
+      builder.append("  ");
+    builder.append(line);
+    builder.append("\n");
   }
 
+  /**
+   * Appends a child node to this node and returns it.
+   * @param parent
+   * @param tag
+   * @return the child node
+   * 
+   */
+  public static Node appendChild(Node parent, String tag)
+  {
+    Document doc = parent.getOwnerDocument();
+    if(doc == null && parent instanceof Document)
+      doc = (Document) parent;
+    Node child = doc.createElement(tag);
+    parent.appendChild(child);
+    return child;
+  }
+  
+  /**
+   * Appends a child node to this parent with the string content specified
+   * @param parent
+   * @param tag
+   * @param content
+   * @return the child node  
+   */
+  public static Node appendChild(Node parent, String tag, String content)
+  {
+    Node child = appendChild(parent, tag);
+    child.setTextContent(content);
+    return child;
+  }
   public static XPathExpression compileXPath(String expression)
   {
     try
@@ -63,139 +83,26 @@ public class Xml
   }
 
   /**
-   * @param xpath
-   * @param document
-   * @return null on exception (exception will be logged)
+   * Creates a new DOM document.
+   * @return <Return Description>  
    */
-  public static Node node(Document document, String xpath)
+  public static Document createDomDocument()
   {
-    XPathExpression path = compileXPath(xpath);
+    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+    DocumentBuilder builder;
     try
     {
-      return (Node) path.evaluate(document, XPathConstants.NODE);
+      builder = factory.newDocumentBuilder();
+      Document doc = builder.newDocument();
+      return doc;
     }
-    catch (XPathExpressionException e)
-    {
-      e.printStackTrace();
-      return null;
-    }
-  }
-
-  /**
-   * 
-   * @param list this NodeList as an iterator
-   * @return an Iterable version of the node-list from  
-   * 
-   */
-  public static NodeListIterator iterator(NodeList list)
-  {
-    return new NodeListIterator(list);
-  }
-  
-  /**
-   * Returns a stream from this node list
-   * @param list
-   * @return a stream from this node list
-   * 
-   */
-  public static Stream<Node> stream(NodeList list)
-  {
-    return new NodeListIterator(list).stream();
-  }
-  
-  /**
-   * @param xpath
-   * @param document
-   * @return null on exception (exception will be logged)
-   */
-  public static NodeList nodeList(Document document, String xpath)
-  {
-    XPathExpression path = compileXPath(xpath);
-    try
-    {
-      return (NodeList) path.evaluate(document, XPathConstants.NODESET);
-    }
-    catch (XPathExpressionException e)
-    {
-      e.printStackTrace();
-      return null;
-    }
-  }
-
-  public static String text(Node node, String xpath)
-  {
-    XPathExpression exp = compileXPath(xpath);
-    try
-    {
-      return (String) exp.evaluate(node);
-    }
-    catch (XPathExpressionException e)
-    {
-      e.printStackTrace();
-      return null;
-    }
-  }
-
-  /**
-   * This method writes to the stream specified
-   * @param doc the document to write
-   * @param stream the stream to write to
-   * @throws TransformerException 
-   * @throws IOException 
-   */
-  public static void writeToStream(Document doc, OutputStream stream) throws TransformerException, IOException
-  {
-      TransformerFactory tFactory = TransformerFactory.newInstance();
-      Transformer transformer = tFactory.newTransformer();
-      transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-      transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-      DOMSource source = new DOMSource(doc);
-      StreamResult result = new StreamResult(stream);
-      transformer.transform(source, result);
-  }
-
-  /**
-   * Write an XML document out to the file specified. Exceptions 
-   * will be swallowed and placed on the error stream.
-   * @param doc
-   * @param file
-   */
-  public static void writeToFile(Document doc, String file)
-  {
-    try(FileOutputStream out = new FileOutputStream(new File(file)))
-    {
-      writeToStream(doc, out);
-      out.close();
-    }
-    catch (IOException | TransformerException e)
+    catch (ParserConfigurationException e)
     {
       e.printStackTrace();
     }
+
+    return null;
   }
-
-  public static String printXml(Document doc)
-  {
-    if (doc == null)
-      return "null";
-
-    Node first = doc.getFirstChild();
-    if (first == null)
-      return "First node is null";
-
-    return printXml(first);
-  }
-
-  public static String printXml(Node node)
-  {
-    if (node == null)
-      return "null";
-
-    StringBuilder builder = new StringBuilder();
-    printXmlHelper(node, builder, 0);
-
-    return builder.toString();
-  }
-
   /**
    * @param node the node to read
    * @return the value of this node's inner text node 
@@ -237,6 +144,78 @@ public class Xml
 
     return false;
   }
+  
+  /**
+   * 
+   * @param list this NodeList as an iterator
+   * @return an Iterable version of the node-list from  
+   * 
+   */
+  public static NodeListIterator iterator(NodeList list)
+  {
+    return new NodeListIterator(list);
+  }
+  
+  /**
+   * @param xpath
+   * @param document
+   * @return null on exception (exception will be logged)
+   */
+  public static Node node(Document document, String xpath)
+  {
+    XPathExpression path = compileXPath(xpath);
+    try
+    {
+      return (Node) path.evaluate(document, XPathConstants.NODE);
+    }
+    catch (XPathExpressionException e)
+    {
+      e.printStackTrace();
+      return null;
+    }
+  }
+
+  /**
+   * @param xpath
+   * @param document
+   * @return null on exception (exception will be logged)
+   */
+  public static NodeList nodeList(Document document, String xpath)
+  {
+    XPathExpression path = compileXPath(xpath);
+    try
+    {
+      return (NodeList) path.evaluate(document, XPathConstants.NODESET);
+    }
+    catch (XPathExpressionException e)
+    {
+      e.printStackTrace();
+      return null;
+    }
+  }
+
+  public static String printXml(Document doc)
+  {
+    if (doc == null)
+      return "null";
+
+    Node first = doc.getFirstChild();
+    if (first == null)
+      return "First node is null";
+
+    return printXml(first);
+  }
+
+  public static String printXml(Node node)
+  {
+    if (node == null)
+      return "null";
+
+    StringBuilder builder = new StringBuilder();
+    printXmlHelper(node, builder, 0);
+
+    return builder.toString();
+  }
 
   private static void printXmlHelper(Node node, StringBuilder builder, int indent)
   {
@@ -258,11 +237,83 @@ public class Xml
     }
   }
 
-  private static void appendLine(String line, int sets, StringBuilder builder)
+  public static Document readDocument(File file)
   {
-    for (int i = 0; i < sets; i++)
-      builder.append("  ");
-    builder.append(line);
-    builder.append("\n");
+    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+    DocumentBuilder builder;
+    try
+    {
+      builder = factory.newDocumentBuilder();
+      Document doc = builder.parse(file);
+      return doc;
+    }
+    catch (ParserConfigurationException | SAXException | IOException e)
+    {
+      e.printStackTrace();
+    }
+
+    return null;
+  }
+
+  /**
+   * Returns a stream from this node list
+   * @param list
+   * @return a stream from this node list
+   * 
+   */
+  public static Stream<Node> stream(NodeList list)
+  {
+    return new NodeListIterator(list).stream();
+  }
+
+  public static String text(Node node, String xpath)
+  {
+    XPathExpression exp = compileXPath(xpath);
+    try
+    {
+      return (String) exp.evaluate(node);
+    }
+    catch (XPathExpressionException e)
+    {
+      e.printStackTrace();
+      return null;
+    }
+  }
+
+  /**
+   * Write an XML document out to the file specified. Exceptions 
+   * will be swallowed and placed on the error stream.
+   * @param doc
+   * @param file
+   */
+  public static void writeToFile(Document doc, String file)
+  {
+    try(FileOutputStream out = new FileOutputStream(new File(file)))
+    {
+      writeToStream(doc, out);
+      out.close();
+    }
+    catch (IOException | TransformerException e)
+    {
+      e.printStackTrace();
+    }
+  }
+
+  /**
+   * This method writes to the stream specified
+   * @param doc the document to write
+   * @param stream the stream to write to
+   * @throws TransformerException 
+   * @throws IOException 
+   */
+  public static void writeToStream(Document doc, OutputStream stream) throws TransformerException, IOException
+  {
+      TransformerFactory tFactory = TransformerFactory.newInstance();
+      Transformer transformer = tFactory.newTransformer();
+      transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+      transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+      DOMSource source = new DOMSource(doc);
+      StreamResult result = new StreamResult(stream);
+      transformer.transform(source, result);
   }
 }
