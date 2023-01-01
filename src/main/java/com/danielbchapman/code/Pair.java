@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Pair<A,B>
 {
-  A one;
-  B two;
+  public A one;
+  public B two;
   
   /**
    * Creates a pair of objects strongly typed based on the
